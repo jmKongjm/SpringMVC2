@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 클라이언트의 요청이 들어오면 해당 요청을 누가 처리할 지에 대한 분석을 DispatcherServlet 이 직접하지 않는다!! 
+		즉 전담자에게 맡겨야 한다. 이러한 역할을 수행하는 전담객체를 HandlerMapping 객체라고 한다. 매핑방법에 따라 스프링은 
+		다양한 HandlerMapping 객체를 지원한다.. 이중에서 가장 많이 사용되는 HandlerMapping 객체를 학습한다!! 1)DefaultAnnotationHandlerMapping 
+		-가장 많이 쓰임 2)SimpleUrlHandlerMapping 3)BeanNameUrlHandlerMapping -->
+	<!-- url 접근 주소를 property를 이용하여 나열하는 방식 -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/smartphone">smartPhoneController</prop>
+				<prop key="/tv">tvController</prop>
+				<prop key="/radio">radioController</prop>
+				<prop key = "/notice/insert">noticeController</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!--  <bean id ="handlerMapping" class ="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+	 beanUrlmapping이용한 것 -->
+	<!-- 요청을 담당할 하위 컨트롤러들을 명시하자!! -->
+	<bean name ="/smartphone" class="hardware.controller.SmartPhoneController"
+		id="smartPhoneController">
+	</bean>
+	<bean name = "/tv" class="hardware.controller.TVController" id="tvController">
+	</bean>
+	<bean name = "/radio" class="hardware.controller.RadioController"
+		id="radioController"></bean>
+	<bean class = "notice.controller.NoticeController" id ="noticeController"></bean>
+
+	<!-- 결과 페이지를 매핑한다!! -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+</beans>
